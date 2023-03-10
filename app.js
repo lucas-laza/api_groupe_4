@@ -3,9 +3,9 @@ const express = require("express");
 // const userRoute = require("./route/user.route");
 // const authRoute = require("./route/auth.route");
 
-// const {connect} = require("./model/connection");
+const {connect} = require("./model/connection");
 
-// connect();
+connect();
 
 const app = express();
 
