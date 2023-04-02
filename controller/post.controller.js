@@ -21,15 +21,24 @@ exports.createComment = async (req, res, next) => {
     res.status(201).json({ message: "Commentaire créé" });
 }
 
-exports.getAll = (req,res,next) => {
-  Post.find()
-    .then(postList => {
-        res.status(200).json(postList);
-    })
-    .catch(error => {
-        res.status(500).json(error);    
-    })
-}
+exports.getAll = async (req, res, next) => {
+  try {
+    const postList = await Post.find();
+    let allPosts = [];
+
+    for (const post of postList) {
+      const comments = await Comment.find({ postId: post._id });
+      allPosts.push({
+        ...post.toObject(),
+        comments: comments
+      });
+    }
+
+    res.status(200).json(allPosts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 exports.edit = (req,res,next) => {
   res.status(201).json({ message: "Post mis à jour !" });
