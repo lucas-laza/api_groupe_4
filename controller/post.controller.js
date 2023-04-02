@@ -8,7 +8,7 @@ exports.create = (req,res,next) => {
 exports.getAll = (req,res,next) => {
 }
 
-exports.edit = (req,res,next) => {
+exports.edit = (req,res,next) => { 
   res.status(201).json({ message: "Post mis à jour !" });
 }
 
