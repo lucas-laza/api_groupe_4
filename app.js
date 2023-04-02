@@ -2,6 +2,8 @@ const express = require("express");
 // const path = require("path");
 // const userRoute = require("./route/user.route");
 // const authRoute = require("./route/auth.route");
+const postRoute = require("./route/post.route");
+
 
 const {connect} = require("./model/connection");
 
@@ -19,6 +21,7 @@ app.use((req, res, next) => {
 });
 
 // app.use('/user', userRoute);
+app.use('/post', postRoute);
 // app.use('/auth', authRoute);
 
 module.exports = app;
