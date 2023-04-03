@@ -44,7 +44,7 @@ exports.edit = (req,res,next) => {
   res.status(201).json({ message: "Post mis à jour !" });
 }
 
-exports.deletePost = async (req,res,next) => {
+exports.delete = async (req,res,next) => {
   const postId = req.params.postId;
   let post = await Post.find({ _id: postId });
 
@@ -57,20 +57,6 @@ exports.deletePost = async (req,res,next) => {
 
     if (suppression) {
       res.status(201).json({ message: "Post supprimé" });
-    }
-  }
-}
-
-exports.deleteComment = async (req,res,next) => {
-  const commentId = req.params.commentId;
-  let Comment = await Comment.find({ _id: commentId });
-
-  if (Comment.length > 0) {
-    // Supprimer le Commentaire
-    const suppression = await Comment.findByIdAndDelete(CommentId);
-
-    if (suppression) {
-      res.status(201).json({ message: "Commentaire supprimé" });
     }
   }
 }
