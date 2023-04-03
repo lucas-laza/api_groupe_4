@@ -56,20 +56,21 @@ exports.edit = (req,res,next) => {
 exports.delete = async (req,res,next) => {
   const postId = req.params.postId;
   let post = await Post.findById(postId);
+  if (post) {
+    if (post.userId.equals(req.token.id)) {
+      // Supprimer tous les commentaires associés au post
+      await Comment.deleteMany({ postId: postId });
   
-  if (post.userId.equals(req.token.id)) {
-    // Supprimer tous les commentaires associés au post
-    await Comment.deleteMany({ postId: postId });
-
-    // Supprimer le post
-    const suppression = await Post.findByIdAndDelete(postId);
-
-    if (suppression) {
-      return res.status(201).json({ message: "Post supprimé" });
+      // Supprimer le post
+      const suppression = await Post.findByIdAndDelete(postId);
+  
+      if (suppression) {
+        return res.status(201).json({ message: "Post supprimé" });
+      }
+    } else {
+      return res.status(401).json({ message: "Authorisation non accordée" });
     }
-  } else {
-    return res.status(401).json({ message: "Authorisation non accordée" });
   }
-
+  
   return res.status(400).json({ message: "Erreur" });
 }
