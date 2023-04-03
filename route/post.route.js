@@ -10,6 +10,8 @@ router.get("/", postController.getAll);
 
 router.put("/", postController.edit);
 
-router.delete("/", postController.delete);
+router.deletePost("/:postId", postController.delete);
+
+router.deleteComment("/:CommentId", postController.delete);
 
 module.exports = router;
