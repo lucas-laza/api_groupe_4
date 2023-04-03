@@ -11,7 +11,7 @@ router.get("/", auth, postController.getAll);
 router.get("/:id", auth, postController.getOne);
 
 
-router.put("/", auth, postController.edit);
+router.put("/:postId", auth, postController.edit);
 
 router.delete("/:postId", auth, postController.delete);
 
