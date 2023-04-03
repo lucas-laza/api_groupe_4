@@ -62,9 +62,24 @@ exports.getOne = async (req, res, next) => {
   }
 };
 
-exports.edit = (req,res,next) => {
-  res.status(201).json({ message: "Post mis à jour !" });
-}
+exports.edit = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Le post n'existe pas" });
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(postId, req.body.post, {
+      new: true,
+    });
+
+    res.status(200).json({ message: "Post mis à jour !", post: updatedPost });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 exports.delete = async (req,res,next) => {
   const postId = req.params.postId;
@@ -73,10 +88,10 @@ exports.delete = async (req,res,next) => {
     if (post.userId.equals(req.token.id)) {
       // Supprimer tous les commentaires associés au post
       await Comment.deleteMany({ postId: postId });
-  
+
       // Supprimer le post
       const suppression = await Post.findByIdAndDelete(postId);
-  
+
       if (suppression) {
         return res.status(201).json({ message: "Post supprimé" });
       }
