@@ -35,8 +35,10 @@ exports.getAll = async (req, res, next) => {
         const user = await User.findById(comment.userId)
         commentsList.push({
           ...comment.toObject(),
-          userFirstname: user.firstname,
-          userEmail: user.email
+          user: {
+            firstname: user.firstname,
+            email: user.email
+          }
         })
       });
       allPosts.push({
