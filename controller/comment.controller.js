@@ -10,3 +10,11 @@ exports.getAll = (req, res, next) => {
     })
 }
 
+exports.delete = async (req,res,next) => {
+    const commentId = req.params.id;
+    const suppression = await Comment.findByIdAndDelete(commentId);
+  
+    if (suppression) {
+        res.status(201).json({ message: "Commentaire supprimé" });
+    }
+}
