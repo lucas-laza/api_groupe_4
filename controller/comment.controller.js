@@ -19,6 +19,8 @@ exports.delete = async (req,res,next) => {
             if (suppression) {
                 res.status(201).json({ message: "Commentaire supprimé" });
             }
+        } else {
+            return res.status(401).json({ message: "Non authorisé" }); 
         }
     }
     
