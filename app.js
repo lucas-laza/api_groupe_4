@@ -1,7 +1,7 @@
 const express = require("express");
 // const path = require("path");
 // const userRoute = require("./route/user.route");
-// const authRoute = require("./route/auth.route");
+const authRoute = require("./route/auth.route");
 const postRoute = require("./route/post.route");
 const commentRoute = require("./route/comment.route");
 
@@ -24,6 +24,6 @@ app.use((req, res, next) => {
 // app.use('/user', userRoute);
 app.use('/post', postRoute);
 app.use('/comment', commentRoute);
-// app.use('/auth', authRoute);
+app.use('/auth', authRoute);
 
 module.exports = app;
