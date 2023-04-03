@@ -1,5 +1,7 @@
 const Post = require("./../model/post.model")
 const Comment = require('./../model/comment.model')
+const User = require('./../model/user.model')
+
 
 exports.create = async (req, res, next) => {
   const post = req.body.post;
@@ -28,9 +30,18 @@ exports.getAll = async (req, res, next) => {
 
     for (const post of postList) {
       const comments = await Comment.find({ postId: post._id });
+      let commentsList = [];
+      comments.forEach(async (comment) => {
+        const user = await User.findById(comment.userId)
+        commentsList.push({
+          ...comment.toObject(),
+          userFirstname: user.firstname,
+          userEmail: user.email
+        })
+      });
       allPosts.push({
         ...post.toObject(),
-        comments: comments
+        comments: commentsList
       });
     }
 
@@ -71,6 +82,6 @@ exports.delete = async (req,res,next) => {
       return res.status(401).json({ message: "Authorisation non accordée" });
     }
   }
-  
+
   return res.status(400).json({ message: "Erreur" });
 }
